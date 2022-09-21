@@ -481,11 +481,15 @@ func (m *BoostService) handleGetPayload(w http.ResponseWriter, req *http.Request
 		go func(relay RelayEntry) {
 			defer wg.Done()
 			url := relay.GetURI(pathGetPayload)
+
 			log := log.WithField("url", url)
 			log.Debug("calling getPayload")
+			errorHandler := func(err error) {
+				log.WithError(err).Debug("error making request to relay, retrying")
+			}
 
 			responsePayload := new(types.GetPayloadResponse)
-			_, err := SendHTTPRequest(requestCtx, m.httpClientGetPayload, http.MethodPost, url, ua, payload, responsePayload)
+			_, err := SendHTTPRequestWithRetries(requestCtx, m.httpClientGetPayload, http.MethodPost, url, ua, payload, responsePayload, errorHandler)
 
 			if err != nil {
 				log.WithError(err).Error("error making request to relay")
