@@ -169,9 +169,7 @@ RestartSec=5
 ExecStart=/home/mev-boost/bin/mev-boost \
         -mainnet \
         -relay-check \
-        -relay YOUR_RELAY_CHOICE_A \
-        -relay YOUR_RELAY_CHOICE_B \
-        -relay YOUR_RELAY_CHOICE_C
+        -relays YOUR_RELAY_CHOICE_A,YOUR_RELAY_CHOICE_B,YOUR_RELAY_CHOICE_C
 
 [Install]
 WantedBy=multi-user.target
@@ -216,7 +214,7 @@ Please take a look at the specific release documentation about the available com
 Run MEV-Boost pointed at a mainnet relay:
 
 ```
-./mev-boost -mainnet -relay-check -relay URL-OF-TRUSTED-RELAY
+./mev-boost -mainnet -relay-check -relays URL-OF-TRUSTED-RELAY
 ```
 
 ## Goerli testnet
@@ -224,7 +222,7 @@ Run MEV-Boost pointed at a mainnet relay:
 Run MEV-Boost pointed at a Goerli relay:
 
 ```
-./mev-boost -goerli -relay-check -relay URL-OF-TRUSTED-RELAY
+./mev-boost -goerli -relay-check -relays URL-OF-TRUSTED-RELAY
 ```
 
 ## Sepolia testnet
@@ -232,7 +230,7 @@ Run MEV-Boost pointed at a Goerli relay:
 Run MEV-Boost pointed at a Sepolia relay:
 
 ```
-./mev-boost -sepolia -relay-check -relay URL-OF-TRUSTED-RELAY
+./mev-boost -sepolia -relay-check -relays URL-OF-TRUSTED-RELAY
 ```
 
 ## `test-cli`
@@ -267,8 +265,6 @@ Usage of ./mev-boost:
         use Mainnet
   -min-bid float
         minimum bid to accept from a relay [eth]
-  -relay value
-        a single relay, can be specified multiple times
   -relay-check
         check relay status on startup and on the status API call
   -relay-monitor value
@@ -289,25 +285,15 @@ Usage of ./mev-boost:
         only print version
 ```
 
-### `-relays` vs `-relay`
+### `-relays`
 
-There are two different flags for specifying relays: `-relays` and `-relay`.
-The `-relays` flag is a comma separated string of relays. On the other hand,
-the `-relay` flag is used to specify a single relay, but can be used multiple
-times for multiple relays. Use whichever method suits your preferences.
+The `-relays` flag is a comma separated string of relays. On the other hand.
 
 These two MEV-Boost commands are equivalent:
 
 ```
-./mev-boost -mainnet -relay-check \
+./mev-boost -mainnet --check \
     -relays $YOUR_RELAY_CHOICE_A,$YOUR_RELAY_CHOICE_B,$YOUR_RELAY_CHOICE_C
-```
-
-```
-./mev-boost -mainnet -relay-check \
-    -relay $YOUR_RELAY_CHOICE_A   \
-    -relay $YOUR_RELAY_CHOICE_B   \
-    -relay $YOUR_RELAY_CHOICE_C
 ```
 
 ---
